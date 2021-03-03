@@ -1,0 +1,17 @@
+{
+  "name": "backend_parchemos",
+  "version": "1.0.0",
+  "description": "Server to stream video and messages",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node backend/p2p/server.js"
+  },
+  "author": "Arturo Victoria Rincon",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "peer": "^0.6.1"
+  }
+}
