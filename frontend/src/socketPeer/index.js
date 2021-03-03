@@ -1,17 +1,15 @@
 import io from 'socket.io-client';
 // eslint-disable-next-line
 import Peer from "peerjs";
+const peerConnection = require('../config/peer.config');
+const {socketHostPort} = require('../config/socket.config');
 
 const setupSocketPeer = (MyStream) => {
     const setupSP = () => {
         const startSocketPeer = (roomId, videoGridContainer) => {
-            const socket = io("http://localhost:5000");
+            const socket = io(socketHostPort);
 
-            const myPeer = new Peer('', {
-                path: '/videochat',
-                host: 'localhost',
-                port: '5000'
-            });
+            const myPeer = new Peer('', peerConnection);
             const videoGrid = videoGridContainer;
             const peers = {};
 
@@ -21,11 +19,10 @@ const setupSocketPeer = (MyStream) => {
             addVideoStream(myVideo, MyStream);
 
             myPeer.on('open', id => {
-                socket.emit('join-room', roomId, id)
+                socket.emit('join-room', roomId, id)  
             })
 
             socket.on('user-connected', userId => {
-                console.log("user-connected", userId);
                 connectToNewUser(userId, MyStream)
             })
 
@@ -34,10 +31,14 @@ const setupSocketPeer = (MyStream) => {
             })
 
             myPeer.on('call', call => {
+                peers[call.peer] = call;
                 call.answer(MyStream)
                 const video = document.createElement('video')
                 call.on('stream', userVideoStream => {
                     addVideoStream(video, userVideoStream)
+                })
+                call.on('close', () => {
+                    video.remove()
                 })
             })
 
@@ -50,8 +51,8 @@ const setupSocketPeer = (MyStream) => {
                 call.on('close', () => {
                     video.remove()
                 })
-                console.log(stream);
-                peers[userId] = call
+                
+                peers[userId] = call;
             }
 
             function addVideoStream(video, stream) {

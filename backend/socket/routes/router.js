@@ -13,7 +13,7 @@ const router = express.Router();
  * @param {object} res response
  */
 router.get("/", (req, res) => {
-  res.send({ response: "Server is up and running." }).status(200);
+  res.send({ response: "Socket server is up and running." }).status(200);
 });
 
 /**

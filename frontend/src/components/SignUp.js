@@ -2,6 +2,7 @@
 import React from 'react';
 import sha256 from 'crypto-js/sha256';
 import enc from 'crypto-js/enc-base64'
+const {socketHostPort} = require('../config/socket.config');
 
 /**
  * Sign in component
@@ -42,7 +43,7 @@ const SignIn = ({ setIsLogIn }) => {
         };
         // Ask to the server to create a new user with the given data
         let network_error = false;
-        const created = await fetch('http://localhost:5000/SignIn', requestOptions).then(
+        const created = await fetch(`${socketHostPort}/SignIn`, requestOptions).then(
 			response => {
 				return response.json()
             }).catch(() => {

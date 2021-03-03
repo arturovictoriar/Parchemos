@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import sha256 from 'crypto-js/sha256';
 import enc from 'crypto-js/enc-base64';
 // import modules
-
+const {socketHostPort} = require('../config/socket.config');
 
 /**
  * Log in component
@@ -29,7 +29,7 @@ const LogIn = ({ setIsLogIn, setUser }) => {
         };
         // Look for permission in the API
         let network_error = false;
-        const permission = await fetch('http://localhost:5000/logIn', requestOptions).then(
+        const permission = await fetch(`${socketHostPort}/logIn`, requestOptions).then(
 			response => {
 				return response.json()
             }).catch(() => {

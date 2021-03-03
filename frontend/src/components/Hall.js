@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import { useHistory } from "react-router-dom";
-import setupSocketPeer from "../socketPeer/index"
+import setupSocketPeer from "../socketPeer/index";
+const {socketHostPort} = require('../config/socket.config');
 
 
 const Hall = ({User, setMyStream}) => {
@@ -25,7 +26,7 @@ const Hall = ({User, setMyStream}) => {
 
     const handler_new_room = async (e) => {
         let network_error = false;
-        const newRoom = await fetch('http://localhost:5000/createRoomId').then(
+        const newRoom = await fetch(`${socketHostPort}/createRoomId`).then(
 			response => {
 				return response.json()
             }).catch(() => {
