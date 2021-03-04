@@ -14,7 +14,7 @@ const setupSocketPeer = (MyStream) => {
             const peers = {};
 
             const myVideo = document.createElement('video');
-            myVideo.muted = true;
+            MyStream.getVideoTracks()[0].enabled = false;
 
             addVideoStream(myVideo, MyStream);
 
